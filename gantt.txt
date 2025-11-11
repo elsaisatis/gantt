@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GANTT - Plan d'Action 2024-2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Style pour la police Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7fa;
+        }
+        /* Style pour la barre de défilement */
+        .gantt-container::-webkit-scrollbar {
+            height: 8px;
+            background-color: #e0e0e0;
+        }
+        .gantt-container::-webkit-scrollbar-thumb {
+            background-color: #4a5568;
+            border-radius: 4px;
+        }
+        /* Cellule d'en-tête collante */
+        .gantt-task-header {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            background-color: #f4f7fa; /* Fond clair pour l'en-tête de tâche */
+        }
+        /* Cellule de tâche collante (Tâche individuelle) */
+        .gantt-task-label {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: white;
+            border-right: 1px solid #e2e8f0;
+        }
+        /* Cellule de tâche collante (Sous-groupe / Objectif Op.) */
+        .gantt-task-label-sub {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            border-right: 1px solid #e2e8f0;
+        }
+        /* Cellule de tâche collante (Groupe Principal / Prop. Strat.) */
+        .gantt-task-label-main {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: #374151; /* bg-gray-700 */
+            color: white;
+            border-right: 1px solid #e2e8f0;
+        }
+        .gantt-grid-cell {
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            min-height: 40px;
+            /* Centre le contenu (pour les barres et jalons) */
+            display: flex;
+            align-items: center;
+            padding: 4px; /* Ajoute un peu d'espace pour la barre */
+        }
+        .gantt-bar {
+            height: 28px;
+            width: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .milestone-block {
+            width: 100%; /* Le jalon prend la largeur de la cellule */
+            max-width: 40px; /* Mais pas plus large qu'un bloc */
+            height: 28px;
+            margin: auto;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Plan d'Action Stratégique (2024-2026)</h1>
+
+    <!-- Conteneur avec défilement horizontal -->
+    <div class="gantt-container w-full overflow-x-auto rounded-lg border border-gray-300 shadow-md bg-white">
+        <div class="gantt-chart min-w-[2000px]">
+            
+            <!-- EN-TÊTE DU GANTT (Années et Mois) -->
+            <div class="gantt-header grid" style="grid-template-columns: 300px repeat(26, minmax(60px, 1fr));">
+                
+                <!-- Cellule vide pour la colonne des tâches -->
+                <div class="gantt-task-header p-4 font-semibold text-lg text-gray-700 border-b-2 border-gray-300">Tâches</div>
+
+                <!-- Années -->
+                <div class="text-center font-bold text-lg text-gray-700 p-2 border-b-2 border-l border-gray-300 bg-gray-100" style="grid-column: span 11;">2024</div>
+                <div class="text-center font-bold text-lg text-gray-700 p-2 border-b-2 border-l border-gray-300 bg-gray-100" style="grid-column: span 12;">2025</div>
+                <div class="text-center font-bold text-lg text-gray-700 p-2 border-b-2 border-l border-gray-300 bg-gray-100" style="grid-column: span 3;">2026</div>
+
+                <!-- Cellule vide (coin) -->
+                <div class="gantt-task-header p-2 border-b border-gray-300"></div>
+
+                <!-- Mois -->
+                <!-- 2024 -->
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Fév</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Mar</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Avr</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Mai</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jui</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jul</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Aoû</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Sep</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Oct</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Nov</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Déc</div>
+                <!-- 2025 -->
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jan</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Fév</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Mar</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Avr</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Mai</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jui</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jul</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Aoû</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Sep</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Oct</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Nov</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Déc</div>
+                <!-- 2026 -->
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Jan</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Fév</div>
+                <div class="text-center text-sm font-medium text-gray-600 p-2 border-b border-l border-gray-200 bg-gray-50">Mar</div>
+            </div>
+
+            <!-- CORPS DU GANTT (Tâches) -->
+            <div class="gantt-body grid" style="grid-template-columns: 300px repeat(26, minmax(60px, 1fr));">
+                
+                <!-- Prop. Strat 1: Renforcer l'organisation -->
+                <div class="gantt-task-label-main p-2 font-bold" style="grid-column: span 27;">Prop. Strat 1: Renforcer l'organisation interne</div>
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Créer les fiches de poste (FA 1)</div>
+                
+                <div class="gantt-task-label p-2 pl-10">Fiches de poste (ASE)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 16;"></div>
+                <div class="gantt-grid-cell" style="grid-column: span 4;">
+                    <div class="gantt-bar bg-indigo-500"></div>
+                </div>
+                <div class="gantt-grid-cell" style="grid-column: span 6;"></div>
+
+                <div class="gantt-task-label p-2 pl-10">Fiches de poste (Référents Sociaux)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 20;"></div>
+                <div class="gantt-grid-cell" style="grid-column: span 2;">
+                    <div class="gantt-bar bg-indigo-500"></div>
+                </div>
+                <div class="gantt-grid-cell" style="grid-column: span 4;"></div>
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Mettre en place les outils de com' (FA 2)</div>
+                
+                <div class="gantt-task-label p-2 pl-10">Réunions Générales (Trim.)</div>
+                <!-- 2024 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 11;"></div>
+                <!-- 2025 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-teal-500"></div></div> <!-- Mar 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-teal-500"></div></div> <!-- Jui 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-teal-500"></div></div> <!-- Sep 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-teal-500"></div></div> <!-- Déc 25 -->
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-teal-500"></div></div> <!-- Mar 26 -->
+
+                <div class="gantt-task-label p-2 pl-10">Réunions TS en visio (Hebdo)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 26;">
+                    <div class="gantt-bar bg-teal-300 opacity-75"></div>
+                </div>
+                
+                <div class="gantt-task-label p-2 pl-10">Réunions d'équipe (mensuelles)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 26;">
+                    <div class="gantt-bar bg-teal-300 opacity-75"></div>
+                </div>
+
+                <!-- Prop. Strat 2: Former les équipes -->
+                <div class="gantt-task-label-main p-2 font-bold" style="grid-column: span 27;">Prop. Strat 2: Former les équipes</div>
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Mener les entretiens pro (FA 3)</div>
+
+                <div class="gantt-task-label p-2 pl-10">Entretiens Professionnels (selon ancienneté)</div>
+                <!-- 2024 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 11;"></div>
+                <!-- 2025 -->
+                <div class="gantt-grid-cell" style="grid-column: span 7;"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-green-500"></div></div> <!-- Sep 25 -->
+                <div class="gantt-grid-cell"><div class="milestone-block bg-green-500"></div></div> <!-- Oct 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-green-500"></div></div> <!-- Déc 25 -->
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-green-500"></div></div> <!-- Mar 26 -->
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Renforcer les compétences (FA 4)</div>
+                
+                <div class="gantt-task-label p-2 pl-10">Formation Outils Réhabilitation</div>
+                <!-- 2024 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 11;"></div>
+                <!-- 2025 -->
+                <div class="gantt-grid-cell" style="grid-column: span 7;"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="gantt-bar bg-green-500"></div></div> <!-- Sep 25 -->
+                <div class="gantt-grid-cell" style="grid-column: span 6;"></div>
+
+                <div class="gantt-task-label p-2 pl-10">Formation Utilisation extincteurs</div>
+                <!-- 2024-2025 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 24;"></div>
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"><div class="gantt-bar bg-green-500"></div></div> <!-- Fév 26 -->
+                <div class="gantt-grid-cell"></div> <!-- Mar 26 -->
+
+                <div class="gantt-task-label p-2 pl-10">Formation Conduite des entretiens motivationnels</div>
+                <!-- 2024-2025 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 25;"></div>
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"><div class="gantt-bar bg-green-500"></div></div> <!-- Mar 26 -->
+                
+                <!-- Prop. Strat 3: Adapter et diversifier l'offre -->
+                <div class="gantt-task-label-main p-2 font-bold" style="grid-column: span 27;">Prop. Strat 3: Adapter et diversifier l'offre</div>
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Participer aux GT (FA 5)</div>
+
+                <div class="gantt-task-label p-2 pl-10">Réunions de préparation CLSM (Trim.)</div>
+                <!-- 2024 (grille vide) --> <div class="gantt-grid-cell" style="grid-column: span 11;"></div>
+                <!-- 2025 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Fév 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mai 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Aoû 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Nov 25 -->
+                <div class="gantt-grid-cell"></div>
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Fév 26 -->
+                <div class="gantt-grid-cell"></div>
+                
+                <div class="gantt-task-label p-2 pl-10">Réunions partenaires (CLSM)</div>
+                <!-- 2024 -->
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Fév 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Jul 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Oct 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <!-- 2025 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mar 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Jui 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Sep 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Déc 25 -->
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mar 26 -->
+                
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj.Op: Élaborer des projets (FA 6)</div>
+                
+                <div class="gantt-task-label p-2 pl-10">Comité de Suivi (Espoir Hérault)</div>
+                <!-- 2024 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mar 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Jui 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Sep 24 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Déc 24 -->
+                <!-- 2025 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mar 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Jui 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Sep 25 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Déc 25 -->
+                <!-- 2026 -->
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-yellow-500"></div></div> <!-- Mar 26 -->
+
+                <!-- Prop. Strat 4: Renforcer la présence sur le territoire (VillaTis) -->
+                <div class="gantt-task-label-main p-2 font-bold" style="grid-column: span 27;">Prop. Strat 4: Renforcer la présence (VillaTis)</div>
+
+                <div class="gantt-task-label-sub p-2 pl-6 font-semibold text-gray-700" style="grid-column: span 27;">Obj. Op: Concrétiser l'ouverture (FA 7)</div>
+
+                <div class="gantt-task-label p-2 pl-10">Préparation (Réunions avec UJAA)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 12;">
+                    <div class="gantt-bar bg-red-500"></div>
+                </div>
+                <div class="gantt-grid-cell" style="grid-column: span 14;"></div>
+                
+                <div class="gantt-task-label p-2 pl-10">Aménagement (Jardinage, installation...)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 11;"></div>
+                <div class="gantt-grid-cell" style="grid-column: span 2;">
+                    <div class="gantt-bar bg-red-500"></div>
+                </div>
+                <div class="gantt-grid-cell" style="grid-column: span 13;"></div>
+
+                <div class="gantt-task-label p-2 pl-10">Arrivée des résidents</div>
+                <div class="gantt-grid-cell" style="grid-column: span 12;"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-red-600"></div></div> <!-- Fév 25 -->
+                <div class="gantt-grid-cell" style="grid-column: span 13;"></div>
+
+                <div class="gantt-task-label p-2 pl-10">Inauguration officielle</div>
+                <div class="gantt-grid-cell" style="grid-column: span 20;"></div>
+                <div class="gantt-grid-cell"><div class="milestone-block bg-red-600"></div></div> <!-- Oct 25 -->
+                <div class="gantt-grid-cell" style="grid-column: span 5;"></div>
+
+                <div class="gantt-task-label p-2 pl-10">Démarche Qualité (Questionnaires satisfaction)</div>
+                <div class="gantt-grid-cell" style="grid-column: span 20;"></div>
+                <div class="gantt-grid-cell"><div class="gantt-bar bg-red-500"></div></div> <!-- Oct 25 -->
+                <div class="gantt-grid-cell" style="grid-column: span 5;"></div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
